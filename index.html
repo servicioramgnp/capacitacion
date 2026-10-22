@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Capacitación GAR</title>
+<meta name="description" content="Calendario de capacitación y desarrollo de Grupo Asesores RAM">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#0B2A4A; --brand-2:#14457A; --accent:#F28C28;
+  --bg:#F3F5F9; --surface:#FFFFFF; --surface-2:#F7F9FC; --text:#0F172A; --muted:#5B6B82; --line:#E3E8EF;
+  --ok:#059669; --warn:#D97706; --danger:#DC2626;
+  --radius:16px; --shadow:0 1px 2px rgba(15,23,42,.05),0 10px 30px rgba(15,23,42,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0A101C;--surface:#111A2A;--surface-2:#0E1624;--text:#E6EBF3;--muted:#93A3BA;--line:#22314A;--shadow:0 1px 2px rgba(0,0,0,.3)}
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{margin:0;line-height:1.2}
+
+/* Header */
+.top{background:linear-gradient(120deg,var(--brand) 0%,var(--brand-2) 100%);color:#fff;position:relative;overflow:hidden}
+.top::after{content:"";position:absolute;right:-120px;top:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(242,140,40,.35),transparent 65%);pointer-events:none}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;padding-bottom:18px;position:relative;z-index:1;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.logo{width:48px;height:48px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none;overflow:hidden}
+.logo img{max-width:100%;max-height:100%;object-fit:contain}
+.logo span{font-weight:800;color:var(--brand);font-size:16px;letter-spacing:.02em}
+.brand .eyebrow{color:rgba(255,255,255,.7)}
+.brand h1{font-size:clamp(19px,2.6vw,25px);font-weight:800;letter-spacing:-.01em}
+.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:rgba(242,140,40,.18);color:#FFD3A6;border:1px solid rgba(242,140,40,.45)}
+.banner{background:#FFF7E6;color:#7A4A00;border-bottom:1px solid #F5D9A8;font-size:13.5px}
+.banner .wrap{padding-top:9px;padding-bottom:9px}
+@media (prefers-color-scheme: dark){.banner{background:#2A1E08;color:#F6CF8E;border-color:#4A3510}}
+
+/* Buttons */
+.btn{--c:var(--brand-2);display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid transparent;border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .08s ease,filter .15s,background .15s}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:17px;height:17px;flex:none}
+.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn.primary{background:var(--c);color:#fff}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.outline{background:transparent;border-color:color-mix(in srgb,var(--c) 45%,var(--line));color:color-mix(in srgb,var(--c) 85%,var(--text))}
+.btn.outline:hover{background:color-mix(in srgb,var(--c) 9%,transparent)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--text)}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.light{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.btn.light:hover{background:rgba(255,255,255,.2)}
+.btn.accent{background:var(--accent);color:#fff}
+.btn.danger{background:transparent;border-color:color-mix(in srgb,var(--danger) 40%,var(--line));color:var(--danger)}
+.btn.danger:hover{background:color-mix(in srgb,var(--danger) 8%,transparent)}
+.btn.disabled{background:var(--surface-2);color:var(--muted);border-color:var(--line);cursor:default;font-weight:600}
+.btn[disabled]{opacity:.6;cursor:wait}
+.icon-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;font-size:20px;line-height:1}
+.icon-btn:hover{background:var(--surface-2)}
+.icon-btn svg{width:18px;height:18px}
+
+/* Hoy */
+.hoy{margin:24px 0 20px}
+.hoy-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.hoy-head h2{font-size:clamp(22px,3vw,28px);font-weight:800;letter-spacing:-.015em;text-transform:none}
+.hoy-head h2::first-letter{text-transform:uppercase}
+.clock{font-size:13px;font-weight:700;color:var(--muted);background:var(--surface);border:1px solid var(--line);padding:6px 11px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
+.clock svg{width:15px;height:15px}
+.hoy-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);padding:26px;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:var(--text);font-size:16px;margin-bottom:4px}
+.empty .btn{margin-top:12px}
+
+/* Session card */
+.sesion{--c:#334155;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 16px 16px 20px;position:relative;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+.sesion::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c)}
+.sesion.cancelada{opacity:.62}
+.sesion.cancelada h3{text-decoration:line-through}
+.s-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--c) 13%,var(--surface));color:color-mix(in srgb,var(--c) 80%,var(--text))}
+.aud{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.aud svg{width:13px;height:13px}
+.estado{margin-left:auto;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:6px}
+.estado.vivo{background:#DCFCE7;color:#166534}
+.estado.vivo::before{content:"";width:7px;height:7px;border-radius:50%;background:#16A34A;animation:pulso 1.4s infinite}
+.estado.pronto{background:#FEF3C7;color:#92400E}
+.estado.hoy{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.estado.fin{background:var(--surface-2);color:var(--muted)}
+.estado.cancel{background:#FEE2E2;color:#991B1B}
+@media (prefers-color-scheme: dark){.estado.vivo{background:#0F3B24;color:#86EFAC}.estado.pronto{background:#3B2A08;color:#FCD34D}.estado.cancel{background:#3F1414;color:#FCA5A5}}
+@keyframes pulso{0%,100%{opacity:1}50%{opacity:.25}}
+.s-hora{font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px}
+.s-hora svg{width:15px;height:15px}
+.sesion h3{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.s-sust{margin:0;font-size:12.5px;font-weight:700;color:color-mix(in srgb,var(--c) 75%,var(--text))}
+.seg.sust label{font-weight:600}
+.seg.sust small{color:var(--muted);font-weight:600}
+.s-desc{margin:0;color:var(--muted);font-size:14px;white-space:pre-line}
+.s-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.s-extra{display:flex;flex-wrap:wrap;gap:6px;padding-top:8px;border-top:1px dashed var(--line);margin-top:2px}
+.s-extra .btn{font-weight:600}
+.s-admin{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px;border-top:1px solid var(--line)}
+
+/* Calendario */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.cal{padding:18px;margin-bottom:12px}
+.cal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.month-nav{display:flex;align-items:center;gap:8px}
+.month-nav h2{font-size:21px;font-weight:800;min-width:178px;text-align:center;letter-spacing:-.01em}
+.filtro{display:flex;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:2px;flex-wrap:wrap}
+.filtro button{border:0;background:transparent;padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer}
+.filtro button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(15,23,42,.12)}
+.filtro-lbl{font-size:12px;font-weight:700;color:var(--muted);margin-right:6px}
+.filtro-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;margin:14px 0 12px;font-size:12.5px;color:var(--muted);font-weight:600}
+.leyenda span{display:inline-flex;align-items:center;gap:6px}
+.leyenda i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.grid{display:grid;gap:6px}
+.dow{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:4px 6px}
+.cell{min-height:124px;border:1px solid var(--line);border-radius:12px;padding:7px;background:var(--surface);cursor:pointer;display:flex;flex-direction:column;gap:4px;position:relative;transition:border-color .15s,box-shadow .15s;min-width:0}
+.cell:hover{border-color:color-mix(in srgb,var(--brand-2) 45%,var(--line));box-shadow:0 4px 14px rgba(15,23,42,.08)}
+.cell:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cell.blank{background:transparent;border-style:dashed;opacity:.45;cursor:default;box-shadow:none}
+.cell.past{background:var(--surface-2)}
+.cell.past .chip{opacity:.7}
+.cell.weekend{background:var(--surface-2)}
+.num{font-size:13px;font-weight:800;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
+.cell.today{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.cell.today .num b{background:var(--accent);color:#fff;border-radius:999px;min-width:24px;height:24px;display:inline-grid;place-items:center;padding:0 6px}
+.add-day{width:22px;height:22px;border-radius:7px;border:1px dashed var(--line);background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--muted);opacity:0;transition:opacity .15s}
+.add-day svg{width:13px;height:13px}
+.cell:hover .add-day,.add-day:focus{opacity:1}
+.chips{display:flex;flex-direction:column;gap:3px;min-width:0}
+.chip{--c:#64748B;display:block;font-size:11.5px;line-height:1.3;padding:3px 6px;border-radius:6px;background:color-mix(in srgb,var(--c) 12%,var(--surface));border-left:3px solid var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.chip b{font-weight:800;color:color-mix(in srgb,var(--c) 80%,var(--text));margin-right:3px}
+.chip.cancelada{text-decoration:line-through;opacity:.55}
+.mas{font-size:11px;font-weight:700;color:var(--muted);padding-left:4px}
+.dots{display:none;flex-wrap:wrap;gap:3px}
+.dots i{width:8px;height:8px;border-radius:50%;display:block}
+.cell.feriado{background:repeating-linear-gradient(135deg,var(--surface-2) 0 8px,color-mix(in srgb,var(--line) 55%,var(--surface-2)) 8px 16px)}
+.fer-lbl{font-size:11px;font-weight:800;color:#9F1239;background:color-mix(in srgb,#E11D48 12%,var(--surface));border-radius:6px;padding:3px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fer-sw{background:repeating-linear-gradient(135deg,#CBD5E1 0 3px,#F1F5F9 3px 6px)}
+.fer-tag{display:inline-block;font-size:12px;font-weight:800;color:#9F1239;background:color-mix(in srgb,#E11D48 12%,var(--surface));border-radius:999px;padding:4px 11px;margin-bottom:8px}
+.fer-box{border-radius:12px;padding:12px 14px;background:color-mix(in srgb,#E11D48 9%,var(--surface));color:var(--text);font-size:14px}
+.fer-box strong{display:block;color:#9F1239;margin-bottom:2px}
+.fer-warn{color:#9F1239;font-weight:600}
+@media (prefers-color-scheme: dark){.fer-lbl,.fer-tag,.fer-box strong,.fer-warn{color:#FDA4AF}}
+@media (max-width:760px){.fer-lbl{font-size:0;padding:0;width:8px;height:8px;border-radius:50%;background:#E11D48;margin:0 auto}}
+.nota{font-size:12.5px;color:var(--muted);text-align:center;margin:10px 0 36px}
+
+@media (max-width:760px){
+  .wrap{padding:0 14px}
+  .cal{padding:12px}
+  .month-nav h2{min-width:0;font-size:18px}
+  .grid{gap:4px}
+  .cell{min-height:58px;padding:5px;border-radius:9px;align-items:center}
+  .chips,.add-day{display:none}
+  .dots{display:flex;justify-content:center}
+  .num{justify-content:center}
+  .dow{font-size:10.5px;padding:2px;text-align:center}
+  .hoy-list{grid-template-columns:1fr}
+  .filtro button{padding:6px 9px;font-size:12px}
+}
+
+/* Dialogs */
+dialog{border:0;padding:0;border-radius:20px;background:var(--surface);color:var(--text);width:min(680px,calc(100vw - 24px));max-height:calc(100vh - 32px);box-shadow:0 30px 80px rgba(2,6,23,.35)}
+dialog::backdrop{background:rgba(8,15,30,.55);backdrop-filter:blur(2px)}
+.dlg-wrap{display:flex;flex-direction:column;max-height:calc(100vh - 32px)}
+.dlg-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--line)}
+.dlg-head h3{font-size:20px;font-weight:800}
+.dlg-head h3::first-letter{text-transform:uppercase}
+.dlg-body{padding:16px 20px;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.dlg-foot{display:flex;justify-content:space-between;gap:8px;padding:14px 20px;border-top:1px solid var(--line);flex-wrap:wrap}
+.dlg-foot .der{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+@media (max-width:760px){dialog{width:100vw;max-width:100vw;max-height:92vh;margin:auto 0 0;border-radius:20px 20px 0 0}.dlg-wrap{max-height:92vh}}
+
+/* Form */
+.f{display:flex;flex-direction:column;gap:5px}
+.f label,.f .lbl{font-size:12.5px;font-weight:700;color:var(--muted)}
+.f input[type=text],.f input[type=url],.f input[type=date],.f input[type=time],.f input[type=password],.f select,.f textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:10px 12px;outline:none;min-width:0}
+.f textarea{min-height:76px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--brand-2);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand-2) 18%,transparent);background:var(--surface)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.row{grid-template-columns:1fr}}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:700;font-size:13.5px;color:var(--text)}
+.seg input{accent-color:var(--brand-2)}
+.seg label:has(input:checked){border-color:var(--brand-2);background:color-mix(in srgb,var(--brand-2) 9%,var(--surface))}
+.diasel label{min-width:46px;justify-content:center;padding:8px 6px}
+.diasel input{position:absolute;opacity:0;pointer-events:none}
+.box{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--surface-2)}
+.link-row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr) auto;gap:8px;align-items:center}
+.link-row input{background:var(--surface)!important}
+@media (max-width:560px){.link-row{grid-template-columns:1fr auto}.link-row input:nth-child(2){grid-column:1/2;grid-row:2}}
+.exc{display:flex;flex-wrap:wrap;gap:6px}
+.exc span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:4px 6px 4px 10px;border-radius:999px;background:#FEE2E2;color:#991B1B}
+.exc button{border:0;background:transparent;cursor:pointer;color:inherit;font-size:15px;line-height:1;padding:0 3px}
+.check{display:flex;align-items:center;gap:8px;font-weight:600}
+.check input{width:18px;height:18px;accent-color:var(--brand-2)}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.err{color:var(--danger);font-size:13px;font-weight:600;margin:0}
+
+/* Series list */
+.serie{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px}
+.serie .dot{width:12px;height:12px;border-radius:4px;flex:none}
+.serie .info{flex:1;min-width:0}
+.serie .info strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.serie .info small{color:var(--muted);font-weight:600}
+.serie .acc{display:flex;gap:6px;flex:none}
+.serie.inactiva{opacity:.55}
+.grupo-t{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:6px}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#0F172A;color:#fff;padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.25);z-index:50;max-width:calc(100vw - 32px)}
+.toast.err{background:#991B1B}
+.skel{height:150px;border-radius:var(--radius);background:linear-gradient(90deg,var(--surface) 0%,var(--surface-2) 50%,var(--surface) 100%);background-size:200% 100%;animation:sk 1.2s infinite;border:1px solid var(--line)}
+@keyframes sk{to{background-position:-200% 0}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand">
+      <div class="logo" id="logo"></div>
+      <div>
+        <div class="eyebrow" id="agencia"></div>
+        <h1>Calendario de Capacitación</h1>
+      </div>
+    </div>
+    <div class="top-actions" id="topActions"></div>
+  </div>
+</header>
+<div class="banner" id="banner" hidden><div class="wrap" id="bannerTxt"></div></div>
+
+<main class="wrap">
+  <section class="hoy" id="hoy" aria-live="polite"></section>
+
+  <section class="card cal" aria-label="Calendario del mes">
+    <div class="cal-head">
+      <div class="month-nav">
+        <button class="icon-btn" data-act="mes" data-dir="-1" aria-label="Mes anterior">‹</button>
+        <h2 id="mesTitulo"></h2>
+        <button class="icon-btn" data-act="mes" data-dir="1" aria-label="Mes siguiente">›</button>
+        <button class="btn ghost sm" data-act="irHoy">Hoy</button>
+      </div>
+      <div class="filtro-wrap"><span class="filtro-lbl">Ver oferta para:</span><div class="filtro" id="filtro"></div></div>
+    </div>
+    <div class="leyenda" id="leyenda"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+  <p class="nota">Horarios en hora del centro de México (CDMX). Toca cualquier día para ver el detalle y las ligas de conexión.</p>
+</main>
+
+<dialog id="dlgDia"></dialog>
+<dialog id="dlgForm"></dialog>
+<dialog id="dlgLogin"></dialog>
+<dialog id="dlgSeries"></dialog>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN — lo único que necesitas editar
+   ===================================================================== */
+const CONFIG = {
+  // URL de la aplicación web de Google Apps Script (termina en /exec).
+  // Si la dejas vacía, el sitio funciona en MODO DEMOSTRACIÓN (los cambios se guardan solo en tu navegador, PIN: 1234).
+  API_URL: 'https://script.google.com/macros/s/AKfycbzpWRJfGJOu0o3B6KnjN6WKHTOLL1WaRb5Bxz3OAO45hE7zfDtjIALTh0ZC6XUDqou0kg/exec',
+  AGENCIA: 'Grupo Asesores RAM',
+  LOGO_URL: 'GAR logo.png',            // Ej. 'logo.png' si subes el logo al repositorio. Vacío = monograma "GAR".
+  MONOGRAMA: 'GAR',
+  ZONA: 'America/Mexico_City',
+  // Los feriados oficiales de la Ley Federal del Trabajo (art. 74) se calculan solos cada año.
+  // Aquí puedes agregar días inhábiles propios de la agencia, por ejemplo:
+  // { fecha: '2026-12-24', nombre: 'Nochebuena' }, { fecha: '2027-03-25', nombre: 'Jueves Santo' }
+  DIAS_INHABILES_EXTRA: []
+};
+
+// Tipos de actividad y su color en el calendario
+const TIPOS = {
+  institucional: { nombre: 'Institucional',      color: '#1D4ED8' },
+  prospeccion:   { nombre: 'Prospección',        color: '#047857' },
+  practica:      { nombre: 'Práctica de ventas', color: '#C2410C' },
+  ventas:        { nombre: 'Ventas y enfoques',  color: '#DC2626' },
+  producto:      { nombre: 'Producto',           color: '#7C3AED' },
+  coaching:      { nombre: 'Coaching',           color: '#BE185D' },
+  taller:        { nombre: 'Taller',             color: '#0E7490' },
+  seminario:     { nombre: 'Seminario / curso',  color: '#4338CA' },
+  grupo:         { nombre: 'Sesión de grupo',    color: '#475569' },
+  especial:      { nombre: 'Evento especial',    color: '#A16207' }
+};
+
+// A quién va dirigida cada actividad
+const AUDIENCIAS = {
+  todos:        { nombre: 'Todos los agentes',     corto: 'Todos' },
+  noveles:      { nombre: 'Agentes noveles',       corto: 'Noveles' },
+  consolidados: { nombre: 'Agentes consolidados',  corto: 'Consolidados' },
+  congresistas: { nombre: 'Proyecto Congresistas', corto: 'Congresistas' }
+};
+
+/* Programación inicial (solo se usa en modo demostración; en producción vive en Google Sheets) */
+const SEED = [
+  { id:'kickoff', titulo:'Kick-off semanal de Grupo Asesores RAM', tipo:'institucional', audiencia:'todos', repeticion:'semanal', dias:[1], inicio:'09:00', fin:'10:00',
+    descripcion:'Arranque de semana de toda la agencia: avisos, metas de la semana, reconocimientos y prioridades comerciales.',
+    links:[{etiqueta:'Videollamada', url:''}] },
+  { id:'morning-call', titulo:'Morning Call en Plataforma Prospecta', tipo:'prospeccion', audiencia:'todos', repeticion:'semanal', dias:[1], inicio:'10:00', fin:'11:00',
+    descripcion:'Sesión práctica de prospección en vivo: armamos y trabajamos la agenda de llamadas de la semana dentro de la Plataforma Prospecta.',
+    links:[{etiqueta:'Videollamada', url:''},{etiqueta:'Plataforma Prospecta', url:''}] },
+  { id:'congresistas-ordinaria', titulo:'Sesión ordinaria · Proyecto Congresistas', tipo:'grupo', audiencia:'congresistas', repeticion:'semanal', dias:[1], inicio:'10:00', fin:'11:00',
+    descripcion:'Sesión ordinaria del grupo Proyecto Congresistas, en simultáneo con el Morning Call de la agencia y con su propia sala.',
+    links:[{etiqueta:'Videollamada Congresistas', url:''}] },
+  { id:'role-play', titulo:'Role Play, tu teatro de ventas', tipo:'practica', audiencia:'todos', repeticion:'semanal', dias:[2], inicio:'09:00', fin:'10:00',
+    descripcion:'Práctica de ventas en parejas y grupos: simulamos entrevistas reales, manejo de objeciones y cierres, con retroalimentación.',
+    links:[{etiqueta:'Videollamada', url:''}] },
+  { id:'expo-ventas', titulo:'Expo Ventas y Enfoques', tipo:'ventas', audiencia:'todos', repeticion:'semanal', dias:[3], inicio:'09:00', fin:'10:00',
+    descripcion:'Asesores comparten casos de venta reales y los enfoques que les funcionan para abrir y cerrar conversaciones.',
+    links:[{etiqueta:'Videollamada', url:''}] },
+  { id:'domina-productos', titulo:'Domina tus productos', tipo:'producto', audiencia:'todos', repeticion:'semanal', dias:[4], inicio:'09:00', fin:'10:00',
+    descripcion:'Repaso a fondo de productos GNP: características, a quién ofrecerlos, argumentos de venta y casos prácticos.',
+    links:[{etiqueta:'Videollamada', url:''}] },
+  { id:'coaching-noveles', titulo:'Coaching Grupal Noveles', tipo:'coaching', audiencia:'noveles', repeticion:'semanal', dias:[5], inicio:'09:00', fin:'10:00',
+    descripcion:'Acompañamiento para agentes en sus primeros años: dudas, actividad de la semana, hábitos y plan de acción.',
+    links:[{etiqueta:'Videollamada', url:''}] },
+  { id:'taller-prospeccion', titulo:'Taller de Prospección', tipo:'taller', audiencia:'todos', repeticion:'mensual', dias:[4], semana:-1, inicio:'09:00', fin:'10:00',
+    sustituye:['domina-productos'],
+    descripcion:'Taller mensual para toda la agencia: fuentes de prospectos, guiones de contacto y armado del plan de prospección del mes siguiente. Ese jueves toma el lugar de «Domina tus productos».',
+    links:[{etiqueta:'Videollamada', url:''}] }
+];
+const DEMO_PIN = '1234';
+
+/* =====================================================================
+   Utilidades
+   ===================================================================== */
+const DIAS_CORTOS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const DIAS_LARGOS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const ORDEN_DIAS = [1,2,3,4,5,6,0];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mk = st => ({ get(k){try{return st().getItem(k)}catch(e){return null}}, set(k,v){try{st().setItem(k,v)}catch(e){}}, del(k){try{st().removeItem(k)}catch(e){}} });
+const local = mk(() => window.localStorage);
+const sesion = mk(() => window.sessionStorage);
+
+const pad = n => String(n).padStart(2,'0');
+const ymd = (y,m,d) => `${y}-${pad(m)}-${pad(d)}`;
+const partes = f => { const [y,m,d] = f.split('-').map(Number); return {y,m,d}; };
+const dow = f => { const {y,m,d} = partes(f); return new Date(Date.UTC(y,m-1,d)).getUTCDay(); };
+const sumarDias = (f,n) => { const {y,m,d} = partes(f); const t = new Date(Date.UTC(y,m-1,d+n)); return ymd(t.getUTCFullYear(), t.getUTCMonth()+1, t.getUTCDate()); };
+const diasEnMes = (y,m) => new Date(Date.UTC(y,m,0)).getUTCDate();
+const hm2min = h => { const [a,b] = String(h).split(':').map(Number); return a*60+(b||0); };
+const fechaLarga = f => { const {m,d} = partes(f); return `${DIAS_LARGOS[dow(f)]} ${d} de ${MESES[m-1]}`; };
+const fechaCorta = f => { const {y,m,d} = partes(f); return `${d} ${MESES[m-1].slice(0,3)} ${y}`; };
+const nuevoId = () => 'act-' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const urlSegura = u => { u = String(u||'').trim(); if (!u) return ''; return /^https?:\/\//i.test(u) ? u : 'https://' + u; };
+
+/* Feriados oficiales de México — Ley Federal del Trabajo, art. 74 */
+const _ferCache = {};
+function nLunes(y, m, n){ // n-ésimo lunes del mes
+  const w = new Date(Date.UTC(y, m-1, 1)).getUTCDay();
+  return ymd(y, m, 1 + ((8 - w) % 7) + (n-1)*7);
+}
+function feriadosDe(y){
+  if (_ferCache[y]) return _ferCache[y];
+  const l = {};
+  l[ymd(y,1,1)]   = 'Año Nuevo';
+  l[nLunes(y,2,1)] = 'Día de la Constitución';
+  l[nLunes(y,3,3)] = 'Natalicio de Benito Juárez';
+  l[ymd(y,5,1)]   = 'Día del Trabajo';
+  l[ymd(y,9,16)]  = 'Día de la Independencia';
+  if (y >= 2024 && (y - 2024) % 6 === 0) l[ymd(y,10,1)] = 'Transmisión del Poder Ejecutivo Federal';
+  l[nLunes(y,11,3)] = 'Día de la Revolución Mexicana';
+  l[ymd(y,12,25)] = 'Navidad';
+  (CONFIG.DIAS_INHABILES_EXTRA || []).forEach(x => { if (x && x.fecha && x.fecha.startsWith(y + '-')) l[x.fecha] = x.nombre || 'Día inhábil'; });
+  return (_ferCache[y] = l);
+}
+const feriado = f => feriadosDe(partes(f).y)[f] || null;
+const SEMANAS = { 1:'Primer', 2:'Segundo', 3:'Tercer', 4:'Cuarto', '-1':'Último' };
+
+function ahora(){
+  const p = new Intl.DateTimeFormat('en-CA',{timeZone:CONFIG.ZONA,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+  const g = t => (p.find(x => x.type === t) || {}).value;
+  return { fecha:`${g('year')}-${g('month')}-${g('day')}`, hm:`${g('hour')}:${g('minute')}` };
+}
+
+const ICON = {
+  video:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m22 8-6 4 6 4V8z"/></svg>',
+  link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>',
+  out:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>'
+};
+
+/* =====================================================================
+   Datos (Google Apps Script o modo demostración)
+   ===================================================================== */
+const MODO_DEMO = !CONFIG.API_URL;
+
+const demo = {
+  mem: null,
+  leer(){
+    if (this.mem) return this.mem;
+    const raw = local.get('gar-cap-demo-v3');
+    if (raw) { try { this.mem = JSON.parse(raw); return this.mem; } catch(e){} }
+    this.mem = JSON.parse(JSON.stringify(SEED));
+    return this.mem;
+  },
+  guardar(l){ this.mem = l; local.set('gar-cap-demo-v3', JSON.stringify(l)); },
+  async post(b){
+    await new Promise(r => setTimeout(r, 150));
+    if (String(b.pin) !== DEMO_PIN) return { ok:false, error:'PIN incorrecto' };
+    let l = this.leer().slice();
+    if (b.action === 'save') { const i = l.findIndex(x => x.id === b.actividad.id); if (i >= 0) l[i] = b.actividad; else l.push(b.actividad); }
+    if (b.action === 'delete') l = l.filter(x => x.id !== b.id);
+    this.guardar(l);
+    return { ok:true, actividades:l };
+  }
+};
+
+const api = {
+  async cargar(){
+    if (MODO_DEMO) return demo.leer();
+    const r = await fetch(CONFIG.API_URL + (CONFIG.API_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'No se pudo cargar');
+    return j.actividades;
+  },
+  async post(body){
+    if (MODO_DEMO) return demo.post(body);
+    const r = await fetch(CONFIG.API_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(body) });
+    return r.json();
+  }
+};
+
+function normalizar(a){
+  const arr = v => Array.isArray(v) ? v : String(v ?? '').split(',').map(s => s.trim()).filter(Boolean);
+  let links = a.links;
+  if (typeof links === 'string') { try { links = JSON.parse(links || '[]'); } catch(e){ links = []; } }
+  if (!Array.isArray(links)) links = [];
+  const act = a.activo;
+  return {
+    id: String(a.id || nuevoId()),
+    titulo: String(a.titulo || ''),
+    tipo: TIPOS[a.tipo] ? a.tipo : 'especial',
+    audiencia: AUDIENCIAS[a.audiencia] ? a.audiencia : 'todos',
+    descripcion: String(a.descripcion || ''),
+    repeticion: ['unica','mensual'].includes(a.repeticion) ? a.repeticion : 'semanal',
+    dias: arr(a.dias).map(Number).filter(n => n >= 0 && n <= 6),
+    semana: [1,2,3,4,-1].includes(Number(a.semana)) ? Number(a.semana) : -1,
+    fecha: String(a.fecha || ''),
+    inicio: String(a.inicio || '09:00').slice(0,5),
+    fin: String(a.fin || '10:00').slice(0,5),
+    desde: String(a.desde || ''),
+    hasta: String(a.hasta || ''),
+    links: links.filter(l => l && typeof l === 'object').map(l => ({ etiqueta: String(l.etiqueta || 'Liga'), url: String(l.url || '') })),
+    excepciones: arr(a.excepciones),
+    sustituye: arr(a.sustituye),
+    activo: !(act === false || act === 'NO' || act === 'FALSE' || act === 'false' || act === 0)
+  };
+}
+
+/* =====================================================================
+   Estado y reglas de calendario
+   ===================================================================== */
+const hoyInicial = ahora().fecha;
+const state = {
+  actividades: [],
+  cargando: true,
+  error: '',
+  vista: { y: partes(hoyInicial).y, m: partes(hoyInicial).m },
+  filtro: local.get('gar-cap-filtro') || 'todas',
+  admin: false,
+  pin: '',
+  diaAbierto: null
+};
+if (state.filtro !== 'todas' && !AUDIENCIAS[state.filtro]) state.filtro = 'todas';
+
+function aplica(a, f){
+  if (!a.activo) return false;
+  if (a.repeticion === 'unica') return a.fecha === f;   // una fecha única la decide el administrador, aunque sea feriado
+  if (feriado(f)) return false;                         // las series recurrentes no se imparten en feriados
+  if (!a.dias.includes(dow(f))) return false;
+  if (a.repeticion === 'mensual') {
+    const {y,m,d} = partes(f);
+    const ok = a.semana === -1 ? d + 7 > diasEnMes(y,m) : Math.ceil(d / 7) === a.semana;
+    if (!ok) return false;
+  }
+  if (a.desde && f < a.desde) return false;
+  if (a.hasta && f > a.hasta) return false;
+  return true;
+}
+function pasaFiltro(a){
+  if (state.filtro === 'todas') return true;
+  return a.audiencia === 'todos' || a.audiencia === state.filtro;
+}
+function sustituidasEn(f){
+  // Actividades que ese día no se imparten porque otra actividad toma su lugar
+  const fuera = new Set();
+  state.actividades.forEach(a => {
+    if (!aplica(a, f)) return;
+    if (a.repeticion !== 'unica' && a.excepciones.includes(f)) return;
+    a.sustituye.forEach(id => { if (id !== a.id) fuera.add(id); });
+  });
+  return fuera;
+}
+function sesionesDe(f, { canceladas = false } = {}){
+  const fuera = sustituidasEn(f);
+  return state.actividades
+    .filter(a => aplica(a, f) && !fuera.has(a.id) && pasaFiltro(a))
+    .map(a => ({ ...a, cancelada: a.repeticion !== 'unica' && a.excepciones.includes(f) }))
+    .filter(s => canceladas || !s.cancelada)
+    .sort((x,y) => x.inicio.localeCompare(y.inicio) || x.titulo.localeCompare(y.titulo));
+}
+function estadoDe(s, f){
+  const n = ahora();
+  if (f < n.fecha) return 'fin';
+  if (f > n.fecha) return '';
+  const t = hm2min(n.hm), i = hm2min(s.inicio), e = hm2min(s.fin);
+  if (t >= e) return 'fin';
+  if (t >= i) return 'vivo';
+  if (i - t <= 15) return 'pronto';
+  return 'hoy';
+}
+const ESTADOS = { vivo:'En vivo ahora', pronto:'Por iniciar', hoy:'Hoy', fin:'Concluida' };
+
+function linkGCal(s, f){
+  const d = f.replace(/-/g,'');
+  const t = h => h.replace(':','') + '00';
+  const det = [s.descripcion, ...s.links.filter(l => l.url).map(l => `${l.etiqueta}: ${urlSegura(l.url)}`)].filter(Boolean).join('\n\n');
+  const q = new URLSearchParams({ action:'TEMPLATE', text:s.titulo, dates:`${d}T${t(s.inicio)}/${d}T${t(s.fin)}`, ctz:CONFIG.ZONA, details:det });
+  const conf = s.links.find(l => l.url);
+  if (conf) q.set('location', urlSegura(conf.url));
+  return 'https://calendar.google.com/calendar/render?' + q.toString();
+}
+
+/* =====================================================================
+   Render
+   ===================================================================== */
+function notaSustituye(s){
+  const t = s.sustituye.map(id => state.actividades.find(x => x.id === id)).filter(Boolean).map(x => x.titulo);
+  return t.length ? `<p class="s-sust">En lugar de: ${esc(t.join(', '))}</p>` : '';
+}
+function tarjeta(s, f, { admin = false } = {}){
+  const t = TIPOS[s.tipo], aud = AUDIENCIAS[s.audiencia];
+  const st = s.cancelada ? 'cancel' : estadoDe(s, f);
+  const stTxt = s.cancelada ? 'Cancelada este día' : (ESTADOS[st] || '');
+  const links = s.links.length ? s.links.map((l,i) => l.url
+      ? `<a class="btn ${i===0?'primary':'outline'}" href="${esc(urlSegura(l.url))}" target="_blank" rel="noopener">${i===0?ICON.video:ICON.link}${esc(l.etiqueta)}</a>`
+      : `<span class="btn disabled">${esc(l.etiqueta)} · liga pendiente</span>`).join('') : '';
+  let acciones = '';
+  if (admin) {
+    if (s.cancelada) acciones = `<button class="btn sm outline" data-act="restaurar" data-id="${esc(s.id)}" data-fecha="${f}">Restaurar este día</button>`;
+    else if (s.repeticion !== 'unica') acciones = `
+      <button class="btn sm outline" data-act="editar" data-id="${esc(s.id)}">Editar serie ${s.repeticion === 'mensual' ? 'mensual' : 'semanal'}</button>
+      <button class="btn sm outline" data-act="cambiarDia" data-id="${esc(s.id)}" data-fecha="${f}">Cambiar o mover solo este día</button>
+      <button class="btn sm danger" data-act="cancelarDia" data-id="${esc(s.id)}" data-fecha="${f}">Cancelar este día</button>`;
+    else acciones = `
+      <button class="btn sm outline" data-act="editar" data-id="${esc(s.id)}">Editar</button>
+      <button class="btn sm danger" data-act="eliminar" data-id="${esc(s.id)}">Eliminar</button>`;
+  }
+  return `<article class="sesion ${s.cancelada?'cancelada':''}" style="--c:${t.color}">
+    <div class="s-top">
+      <span class="tag">${esc(t.nombre)}</span>
+      <span class="aud">${ICON.users}${esc(aud.nombre)}</span>
+      ${stTxt ? `<span class="estado ${st}">${stTxt}</span>` : ''}
+    </div>
+    <div class="s-hora">${ICON.clock}${s.inicio} – ${s.fin} h</div>
+    <h3>${esc(s.titulo)}</h3>
+    ${notaSustituye(s)}
+    ${s.descripcion ? `<p class="s-desc">${esc(s.descripcion)}</p>` : ''}
+    ${links && !s.cancelada ? `<div class="s-links">${links}</div>` : ''}
+    ${!s.cancelada && st !== 'fin' ? `<div class="s-extra"><a class="btn sm ghost" href="${esc(linkGCal(s,f))}" target="_blank" rel="noopener">${ICON.cal}Agregar a mi calendario</a></div>` : ''}
+    ${acciones ? `<div class="s-admin">${acciones}</div>` : ''}
+  </article>`;
+}
+
+function renderHeader(){
+  $('#agencia').textContent = CONFIG.AGENCIA;
+  $('#logo').innerHTML = CONFIG.LOGO_URL ? `<img src="${esc(CONFIG.LOGO_URL)}" alt="${esc(CONFIG.AGENCIA)}">` : `<span>${esc(CONFIG.MONOGRAMA)}</span>`;
+  $('#topActions').innerHTML = state.admin
+    ? `<span class="pill">Modo administrador</span>
+       <button class="btn accent sm" data-act="nueva">${ICON.plus}Nueva actividad</button>
+       <button class="btn light sm" data-act="series">${ICON.list}Todas las actividades</button>
+       <button class="btn light sm" data-act="logout">${ICON.out}Salir</button>`
+    : `<button class="btn light sm" data-act="login">${ICON.lock}Administrar</button>`;
+  const b = $('#banner');
+  if (MODO_DEMO) { b.hidden = false; $('#bannerTxt').innerHTML = '<strong>Modo demostración.</strong> Los cambios se guardan solo en este navegador. Para publicar la programación para todos, conecta la hoja de Google (ver README). PIN de prueba: <strong>1234</strong>.'; }
+  else if (state.error) { b.hidden = false; $('#bannerTxt').textContent = state.error; }
+  else b.hidden = true;
+}
+
+function proximoDiaConSesiones(desde){
+  for (let i = 1; i <= 45; i++) { const f = sumarDias(desde, i); if (sesionesDe(f).length) return f; }
+  return null;
+}
+
+function renderHoy(){
+  const n = ahora();
+  const el = $('#hoy');
+  const head = `<div class="hoy-head"><div><div class="eyebrow">Capacitación de hoy</div><h2>${fechaLarga(n.fecha)}</h2></div><span class="clock">${ICON.clock}${n.hm} h · CDMX</span></div>`;
+  if (state.cargando && !state.actividades.length) { el.innerHTML = head + '<div class="hoy-list"><div class="skel"></div><div class="skel"></div></div>'; return; }
+  const lista = sesionesDe(n.fecha);
+  const fer = feriado(n.fecha);
+  if (!lista.length) {
+    const p = proximoDiaConSesiones(n.fecha);
+    el.innerHTML = head + `<div class="empty">${fer ? `<span class="fer-tag">Día feriado · ${esc(fer)}</span>` : ''}<strong>${fer ? 'Hoy no hay capacitación: es día de descanso obligatorio.' : `Hoy no hay sesiones programadas${state.filtro!=='todas' ? ' para ' + esc(AUDIENCIAS[state.filtro].nombre.toLowerCase()) : ''}.`}</strong>
+      ${p ? `Próxima capacitación: <b>${fechaLarga(p)}</b>.<br><button class="btn primary sm" data-act="dia" data-fecha="${p}">Ver sesiones de ese día</button>` : 'Revisa el calendario del mes.'}</div>`;
+    return;
+  }
+  const pendientes = lista.filter(s => estadoDe(s, n.fecha) !== 'fin');
+  const orden = [...pendientes, ...lista.filter(s => estadoDe(s, n.fecha) === 'fin')];
+  el.innerHTML = head + `<div class="hoy-list">${orden.map(s => tarjeta(s, n.fecha)).join('')}</div>`;
+}
+
+function renderFiltro(){
+  const ops = [['todas','Toda la oferta'], ...Object.entries(AUDIENCIAS).filter(([k]) => k !== 'todos').map(([k,v]) => [k, v.corto])];
+  $('#filtro').innerHTML = ops.map(([k,v]) => `<button data-act="filtro" data-v="${k}" aria-pressed="${state.filtro===k}">${esc(v)}</button>`).join('');
+}
+
+function renderLeyenda(){
+  const {y,m} = state.vista;
+  const usados = new Set();
+  for (let d = 1; d <= diasEnMes(y,m); d++) sesionesDe(ymd(y,m,d)).forEach(s => usados.add(s.tipo));
+  const tipos = Object.entries(TIPOS).filter(([k]) => usados.has(k) || state.admin);
+  let hayFer = false;
+  for (let d = 1; d <= diasEnMes(y,m); d++) if (feriado(ymd(y,m,d))) { hayFer = true; break; }
+  $('#leyenda').innerHTML = tipos.map(([,t]) => `<span><i style="background:${t.color}"></i>${esc(t.nombre)}</span>`).join('')
+    + (hayFer ? `<span><i class="fer-sw"></i>Día feriado (sin capacitación)</span>` : '');
+}
+
+function renderCalendario(){
+  const {y,m} = state.vista;
+  $('#mesTitulo').textContent = `${MESES[m-1][0].toUpperCase()}${MESES[m-1].slice(1)} ${y}`;
+  const hoy = ahora().fecha;
+  const total = diasEnMes(y,m);
+  let finDeSemana = false;
+  for (let d = 1; d <= total; d++) { const f = ymd(y,m,d), w = dow(f); if ((w === 0 || w === 6) && sesionesDe(f).length) { finDeSemana = true; break; } }
+  const cols = finDeSemana ? 7 : 5;
+  const grid = $('#grid');
+  grid.style.gridTemplateColumns = `repeat(${cols}, minmax(0,1fr))`;
+  let html = ORDEN_DIAS.slice(0, cols).map(w => `<div class="dow">${DIAS_CORTOS[w]}</div>`).join('');
+  let pos = 0, primero = true;
+  const max = 4;
+  for (let d = 1; d <= total; d++) {
+    const f = ymd(y,m,d), w = dow(f), col = (w + 6) % 7;
+    if (col >= cols) continue;
+    if (primero) { for (let i = 0; i < col; i++) { html += '<div class="cell blank"></div>'; pos++; } primero = false; }
+    const lista = sesionesDe(f, { canceladas: state.admin });
+    const chips = lista.slice(0, max).map(s => `<span class="chip ${s.cancelada?'cancelada':''}" style="--c:${TIPOS[s.tipo].color}" title="${esc(s.inicio + ' ' + s.titulo)}"><b>${s.inicio}</b>${esc(s.titulo)}</span>`).join('');
+    const mas = lista.length > max ? `<span class="mas">+${lista.length - max} más</span>` : '';
+    const dots = lista.filter(s => !s.cancelada).map(s => `<i style="background:${TIPOS[s.tipo].color}"></i>`).join('');
+    const fer = feriado(f);
+    const cls = ['cell', f === hoy ? 'today' : '', f < hoy ? 'past' : '', (w === 0 || w === 6) ? 'weekend' : '', fer ? 'feriado' : ''].join(' ');
+    html += `<div class="${cls}" data-act="dia" data-fecha="${f}" role="button" tabindex="0" aria-label="${fechaLarga(f)}${fer ? ', feriado: ' + esc(fer) : ''}, ${lista.filter(s=>!s.cancelada).length} sesiones">
+      <div class="num"><b>${d}</b>${state.admin ? `<button class="add-day" data-act="agregarEnDia" data-fecha="${f}" aria-label="Agregar actividad el ${fechaLarga(f)}">${ICON.plus}</button>` : ''}</div>
+      ${fer ? `<span class="fer-lbl" title="${esc(fer)}">Feriado · ${esc(fer)}</span>` : ''}
+      <div class="chips">${chips}${mas}</div><div class="dots">${dots}</div></div>`;
+    pos++;
+  }
+  while (pos % cols) { html += '<div class="cell blank"></div>'; pos++; }
+  grid.innerHTML = html;
+}
+
+function render(){
+  renderHeader(); renderHoy(); renderFiltro(); renderLeyenda(); renderCalendario();
+  if (state.diaAbierto && $('#dlgDia').open) abrirDia(state.diaAbierto);
+}
+
+/* =====================================================================
+   Diálogos
+   ===================================================================== */
+function abrirDlg(d){ if (!d.open) d.showModal(); }
+
+function textoWhatsApp(f){
+  const lista = sesionesDe(f);
+  let t = `*Capacitación ${CONFIG.AGENCIA}*\n_${fechaLarga(f).replace(/^./, c => c.toUpperCase())} · hora CDMX_\n`;
+  lista.forEach(s => {
+    t += `\n🕘 *${s.inicio}–${s.fin}* · ${s.titulo}\n👥 ${AUDIENCIAS[s.audiencia].nombre}\n`;
+    s.links.filter(l => l.url).forEach(l => t += `🔗 ${l.etiqueta}: ${urlSegura(l.url)}\n`);
+  });
+  t += `\nCalendario completo: ${location.href.split('#')[0].split('?')[0]}`;
+  return t;
+}
+
+function abrirDia(f){
+  state.diaAbierto = f;
+  const lista = sesionesDe(f, { canceladas: state.admin });
+  const activas = lista.filter(s => !s.cancelada);
+  const fer = feriado(f);
+  const d = $('#dlgDia');
+  d.innerHTML = `<div class="dlg-wrap">
+    <div class="dlg-head"><div><div class="eyebrow">${activas.length} ${activas.length === 1 ? 'sesión' : 'sesiones'}${state.filtro!=='todas' ? ' · ' + esc(AUDIENCIAS[state.filtro].corto) : ''}</div><h3>${fechaLarga(f)}</h3></div>
+      <button class="icon-btn" data-act="cerrar" aria-label="Cerrar">×</button></div>
+    <div class="dlg-body">${fer ? `<div class="fer-box"><strong>Día feriado · ${esc(fer)}</strong>Día de descanso obligatorio: las sesiones fijas no se imparten.${state.admin ? ' Si aun así programas una actividad de fecha única, sí aparecerá.' : ''}</div>` : ''}
+      ${lista.length ? lista.map(s => tarjeta(s, f, { admin: state.admin })).join('') : (fer ? '' : `<div class="empty"><strong>Sin sesiones programadas.</strong>${state.admin ? 'Agrega una actividad para este día.' : 'Consulta otro día del calendario.'}</div>`)}</div>
+    <div class="dlg-foot">
+      ${activas.length ? `<a class="btn ghost sm" href="https://wa.me/?text=${encodeURIComponent(textoWhatsApp(f))}" target="_blank" rel="noopener">${ICON.wa}Compartir por WhatsApp</a>` : '<span></span>'}
+      <div class="der">${state.admin ? `<button class="btn accent sm" data-act="agregarEnDia" data-fecha="${f}">${ICON.plus}Agregar actividad este día</button>` : ''}</div>
+    </div></div>`;
+  abrirDlg(d);
+}
+
+let formCtx = null;
+function plantillaNueva(fecha){
+  return { id:'', titulo:'', tipo:'taller', audiencia:'todos', descripcion:'', repeticion: fecha ? 'unica' : 'semanal',
+    dias: fecha ? [dow(fecha)] : [], fecha: fecha || '', inicio:'09:00', fin:'10:00', desde:'', hasta:'',
+    links:[{etiqueta:'Videollamada', url:''}], excepciones:[], activo:true };
+}
+
+function filaLink(l = {etiqueta:'', url:''}){
+  return `<div class="link-row"><input type="text" class="l-et" placeholder="Etiqueta (ej. Videollamada)" value="${esc(l.etiqueta)}"><input type="url" class="l-url" placeholder="https://..." value="${esc(l.url)}"><button type="button" class="icon-btn" data-act="rmLink" aria-label="Quitar liga">×</button></div>`;
+}
+
+function abrirForm(act, ctx = {}){
+  const a = act ? JSON.parse(JSON.stringify(act)) : plantillaNueva(ctx.fecha);
+  formCtx = { a, ctx, excepciones: [...(a.excepciones || [])] };
+  const override = !!ctx.override;
+  const titulo = override ? `Cambiar o mover solo el ${fechaLarga(ctx.override.fecha)}` : (act && act.id ? 'Editar actividad' : 'Nueva actividad');
+  const d = $('#dlgForm');
+  d.innerHTML = `<form class="dlg-wrap" id="frm" novalidate>
+    <div class="dlg-head"><div><div class="eyebrow">Administración</div><h3>${esc(titulo)}</h3></div><button type="button" class="icon-btn" data-act="cerrar" aria-label="Cerrar">×</button></div>
+    <div class="dlg-body">
+      ${override ? `<p class="hint">La serie se mantiene igual; solo este día se reemplaza por lo que guardes aquí. Puedes cambiar horario, ligas, tema o moverla a otra fecha.</p>` : ''}
+      <div class="f"><label for="f-titulo">Nombre de la actividad</label><input type="text" id="f-titulo" name="titulo" value="${esc(a.titulo)}" placeholder="Ej. Taller de cierre de ventas" required></div>
+      <div class="row">
+        <div class="f"><label for="f-tipo">Tipo de actividad</label><select id="f-tipo" name="tipo">${Object.entries(TIPOS).map(([k,t]) => `<option value="${k}" ${a.tipo===k?'selected':''}>${esc(t.nombre)}</option>`).join('')}</select></div>
+        <div class="f"><label for="f-aud">Dirigida a</label><select id="f-aud" name="audiencia">${Object.entries(AUDIENCIAS).map(([k,v]) => `<option value="${k}" ${a.audiencia===k?'selected':''}>${esc(v.nombre)}</option>`).join('')}</select></div>
+      </div>
+      <div class="f"><label for="f-desc">Breve descripción</label><textarea id="f-desc" name="descripcion" placeholder="¿De qué trata la sesión y qué se llevará el agente?">${esc(a.descripcion)}</textarea></div>
+      <div class="row">
+        <div class="f"><label for="f-ini">Hora de inicio (CDMX)</label><input type="time" id="f-ini" name="inicio" value="${esc(a.inicio)}" required></div>
+        <div class="f"><label for="f-fin">Hora de término</label><input type="time" id="f-fin" name="fin" value="${esc(a.fin)}" required></div>
+      </div>
+      ${override ? '' : `<div class="f"><span class="lbl">¿Cuándo se imparte?</span><div class="seg">
+        <label><input type="radio" name="repeticion" value="semanal" ${a.repeticion==='semanal'?'checked':''}>Cada semana</label>
+        <label><input type="radio" name="repeticion" value="mensual" ${a.repeticion==='mensual'?'checked':''}>Una vez al mes</label>
+        <label><input type="radio" name="repeticion" value="unica" ${a.repeticion==='unica'?'checked':''}>Fecha única</label></div></div>`}
+      <div class="box" id="bx-rec">
+        <div class="f" id="bx-semanal"><span class="lbl">Días de la semana</span><div class="seg diasel">${ORDEN_DIAS.map(w => `<label><input type="checkbox" name="dias" value="${w}" ${a.dias.includes(w)?'checked':''}>${DIAS_CORTOS[w]}</label>`).join('')}</div></div>
+        <div class="row" id="bx-mensual">
+          <div class="f"><label for="f-sem">Semana del mes</label><select id="f-sem" name="semana">${Object.entries(SEMANAS).map(([k,v]) => `<option value="${k}" ${String(a.semana ?? -1)===k?'selected':''}>${v}</option>`).join('')}</select></div>
+          <div class="f"><label for="f-dm">Día</label><select id="f-dm" name="diaMes">${ORDEN_DIAS.map(w => `<option value="${w}" ${(a.dias[0] ?? 4)===w?'selected':''}>${DIAS_LARGOS[w]}</option>`).join('')}</select></div>
+        </div>
+        <p class="hint">Las sesiones recurrentes no se imparten en días feriados oficiales.</p>
+        <div class="row">
+          <div class="f"><label for="f-desde">Vigente desde (opcional)</label><input type="date" id="f-desde" name="desde" value="${esc(a.desde)}"></div>
+          <div class="f"><label for="f-hasta">Vigente hasta (opcional)</label><input type="date" id="f-hasta" name="hasta" value="${esc(a.hasta)}"></div>
+        </div>
+        <div class="f" id="bx-exc"></div>
+      </div>
+      <div class="box" id="bx-unica"><div class="f"><label for="f-fecha">Fecha</label><input type="date" id="f-fecha" name="fecha" value="${esc(a.fecha)}"></div><p class="hint fer-warn" id="f-fer" hidden></p></div>
+      <div class="f"><span class="lbl">Ligas para conectarse</span>
+        <div class="box"><div id="links">${(a.links.length ? a.links : [{etiqueta:'Videollamada',url:''}]).map(filaLink).join('')}</div>
+        <div><button type="button" class="btn sm ghost" data-act="addLink">${ICON.plus}Agregar otra liga</button></div>
+        <p class="hint">Ej. la videollamada (Zoom, Meet, Teams) y la plataforma que se usará en la sesión.</p></div>
+      </div>
+      ${override ? '' : (() => {
+        const ops = state.actividades.filter(x => x.repeticion !== 'unica' && x.id !== a.id)
+          .sort((x,y) => (ORDEN_DIAS.indexOf(x.dias[0]) - ORDEN_DIAS.indexOf(y.dias[0])) || x.inicio.localeCompare(y.inicio));
+        return ops.length ? `<div class="f"><span class="lbl">Sustituye a (opcional)</span>
+          <div class="seg sust">${ops.map(x => `<label><input type="checkbox" name="sustituye" value="${esc(x.id)}" ${a.sustituye && a.sustituye.includes(x.id) ? 'checked' : ''}>${esc(x.titulo)} <small>· ${x.dias.map(w => DIAS_CORTOS[w]).join(', ')} ${x.inicio}</small></label>`).join('')}</div>
+          <p class="hint">Los días en que se imparte esta actividad, las sesiones marcadas no aparecen en el calendario.</p></div>` : '';
+      })()}
+      ${override ? '' : `<label class="check"><input type="checkbox" name="activo" ${a.activo?'checked':''}>Actividad visible en el calendario</label>`}
+      <p class="err" id="f-err" hidden></p>
+    </div>
+    <div class="dlg-foot"><div class="der">
+      <button type="button" class="btn ghost" data-act="cerrar">Cancelar</button>
+      <button type="submit" class="btn primary" id="f-guardar">Guardar</button>
+    </div></div>
+  </form>`;
+  const frm = $('#frm');
+  const sync = () => {
+    const rep = override ? 'unica' : (frm.querySelector('[name=repeticion]:checked') || {}).value;
+    $('#bx-rec').hidden = rep === 'unica';
+    $('#bx-semanal').hidden = rep !== 'semanal';
+    $('#bx-mensual').hidden = rep !== 'mensual';
+    $('#bx-unica').hidden = rep !== 'unica';
+    const fv = $('#f-fecha').value, fer = fv && feriado(fv), w = $('#f-fer');
+    w.hidden = !fer;
+    if (fer) w.textContent = `Atención: ${fechaLarga(fv)} es día feriado (${fer}). Si guardas, la actividad sí aparecerá ese día.`;
+  };
+  frm.addEventListener('change', e => { if (e.target.name === 'repeticion' || e.target.name === 'fecha') sync(); });
+  frm.addEventListener('submit', e => { e.preventDefault(); guardarForm(); });
+  renderExcepciones(); sync();
+  abrirDlg(d);
+  setTimeout(() => $('#f-titulo').focus(), 50);
+}
+
+function renderExcepciones(){
+  const el = $('#bx-exc');
+  if (!el) return;
+  const ex = formCtx.excepciones.slice().sort();
+  el.innerHTML = ex.length ? `<span class="lbl">Días cancelados de esta serie</span><div class="exc">${ex.map(f => `<span>${fechaCorta(f)}<button type="button" data-act="rmExc" data-fecha="${f}" aria-label="Restaurar ${f}">×</button></span>`).join('')}</div>` : '';
+}
+
+async function guardarForm(){
+  const frm = $('#frm'), err = $('#f-err');
+  const fd = new FormData(frm);
+  const { a, ctx } = formCtx;
+  const override = !!ctx.override;
+  const rep = override ? 'unica' : fd.get('repeticion');
+  const nuevo = normalizar({
+    ...a,
+    id: override ? nuevoId() : (a.id || nuevoId()),
+    titulo: (fd.get('titulo') || '').trim(),
+    tipo: fd.get('tipo'), audiencia: fd.get('audiencia'),
+    descripcion: (fd.get('descripcion') || '').trim(),
+    inicio: fd.get('inicio'), fin: fd.get('fin'),
+    repeticion: rep,
+    dias: rep === 'semanal' ? fd.getAll('dias').map(Number) : rep === 'mensual' ? [Number(fd.get('diaMes'))] : [],
+    semana: rep === 'mensual' ? Number(fd.get('semana')) : -1,
+    desde: rep !== 'unica' ? fd.get('desde') : '',
+    hasta: rep !== 'unica' ? fd.get('hasta') : '',
+    fecha: rep === 'unica' ? fd.get('fecha') : '',
+    excepciones: rep !== 'unica' ? formCtx.excepciones : [],
+    sustituye: override ? [] : fd.getAll('sustituye'),
+    links: [...frm.querySelectorAll('.link-row')].map(r => ({ etiqueta: r.querySelector('.l-et').value.trim() || 'Liga', url: r.querySelector('.l-url').value.trim() })).filter(l => l.url || l.etiqueta !== 'Liga'),
+    activo: override ? true : fd.get('activo') === 'on'
+  });
+  const problema =
+    !nuevo.titulo ? 'Escribe el nombre de la actividad.' :
+    !nuevo.inicio || !nuevo.fin ? 'Indica el horario.' :
+    hm2min(nuevo.fin) <= hm2min(nuevo.inicio) ? 'La hora de término debe ser posterior a la de inicio.' :
+    nuevo.repeticion === 'semanal' && !nuevo.dias.length ? 'Elige al menos un día de la semana.' :
+    nuevo.repeticion === 'unica' && !nuevo.fecha ? 'Elige la fecha.' :
+    nuevo.desde && nuevo.hasta && nuevo.hasta < nuevo.desde ? 'La vigencia "hasta" es anterior a "desde".' : '';
+  if (problema) { err.textContent = problema; err.hidden = false; return; }
+  err.hidden = true;
+  const btn = $('#f-guardar'); btn.disabled = true; btn.textContent = 'Guardando…';
+  try {
+    if (override) {
+      const serie = state.actividades.find(x => x.id === ctx.override.id);
+      if (serie && !serie.excepciones.includes(ctx.override.fecha)) await enviar('save', { actividad: { ...serie, excepciones: [...serie.excepciones, ctx.override.fecha] } });
+    }
+    await enviar('save', { actividad: nuevo });
+    $('#dlgForm').close();
+    toast('Actividad guardada');
+  } catch(e) {
+    err.textContent = e.message; err.hidden = false;
+    btn.disabled = false; btn.textContent = 'Guardar';
+  }
+}
+
+async function enviar(action, extra){
+  const r = await api.post({ action, pin: state.pin, ...extra });
+  if (!r || !r.ok) {
+    if (r && /PIN/i.test(r.error || '')) { salirAdmin(); throw new Error('La sesión de administrador expiró. Vuelve a entrar.'); }
+    throw new Error((r && r.error) || 'No se pudo guardar. Intenta de nuevo.');
+  }
+  state.actividades = r.actividades.map(normalizar);
+  local.set('gar-cap-cache', JSON.stringify(state.actividades));
+  render();
+  return r;
+}
+
+function abrirLogin(){
+  const d = $('#dlgLogin');
+  d.innerHTML = `<form class="dlg-wrap" id="frmLogin">
+    <div class="dlg-head"><div><div class="eyebrow">Acceso</div><h3>Administrar calendario</h3></div><button type="button" class="icon-btn" data-act="cerrar" aria-label="Cerrar">×</button></div>
+    <div class="dlg-body"><div class="f"><label for="pin">PIN de administrador</label><input type="password" id="pin" autocomplete="current-password" inputmode="text" required></div><p class="err" id="l-err" hidden></p></div>
+    <div class="dlg-foot"><div class="der"><button type="button" class="btn ghost" data-act="cerrar">Cancelar</button><button class="btn primary" id="l-btn">Entrar</button></div></div></form>`;
+  d.style.width = 'min(420px, calc(100vw - 24px))';
+  abrirDlg(d);
+  setTimeout(() => $('#pin').focus(), 50);
+  $('#frmLogin').addEventListener('submit', async e => {
+    e.preventDefault();
+    const pin = $('#pin').value.trim(), btn = $('#l-btn'), err = $('#l-err');
+    if (!pin) return;
+    btn.disabled = true; btn.textContent = 'Verificando…';
+    try {
+      const r = await api.post({ action:'login', pin });
+      if (!r.ok) throw new Error(r.error || 'PIN incorrecto');
+      state.admin = true; state.pin = pin; sesion.set('gar-cap-pin', pin);
+      d.close(); render(); toast('Modo administrador activo');
+    } catch(ex) { err.textContent = ex.message; err.hidden = false; btn.disabled = false; btn.textContent = 'Entrar'; }
+  });
+}
+function salirAdmin(){ state.admin = false; state.pin = ''; sesion.del('gar-cap-pin'); render(); }
+
+function abrirSeries(){
+  const d = $('#dlgSeries');
+  const vig = a => `${a.desde ? ' · desde ' + fechaCorta(a.desde) : ''}${a.hasta ? ' · hasta ' + fechaCorta(a.hasta) : ''}`;
+  const desc = a => a.repeticion === 'semanal'
+    ? `Cada ${ORDEN_DIAS.filter(w => a.dias.includes(w)).map(w => DIAS_CORTOS[w]).join(', ')} · ${a.inicio}–${a.fin}${vig(a)}`
+    : a.repeticion === 'mensual'
+    ? `${SEMANAS[a.semana]} ${DIAS_LARGOS[a.dias[0]]} de cada mes · ${a.inicio}–${a.fin}${vig(a)}`
+    : `${a.fecha ? fechaCorta(a.fecha) : 'Sin fecha'} · ${a.inicio}–${a.fin}`;
+  const fila = a => `<div class="serie ${a.activo?'':'inactiva'}"><span class="dot" style="background:${TIPOS[a.tipo].color}"></span>
+    <div class="info"><strong>${esc(a.titulo)}</strong><small>${esc(desc(a))} · ${esc(AUDIENCIAS[a.audiencia].corto)}${a.sustituye.length ? ' · sustituye a ' + esc(a.sustituye.map(id => (state.actividades.find(x => x.id === id) || {}).titulo).filter(Boolean).join(', ')) : ''}${a.activo?'':' · Oculta'}</small></div>
+    <div class="acc"><button class="btn sm outline" data-act="editar" data-id="${esc(a.id)}">Editar</button><button class="btn sm danger" data-act="eliminar" data-id="${esc(a.id)}">Eliminar</button></div></div>`;
+  const sem = state.actividades.filter(a => a.repeticion !== 'unica').sort((x,y) => (ORDEN_DIAS.indexOf(x.dias[0]) - ORDEN_DIAS.indexOf(y.dias[0])) || x.inicio.localeCompare(y.inicio));
+  const hoy = ahora().fecha;
+  const uni = state.actividades.filter(a => a.repeticion === 'unica').sort((x,y) => x.fecha.localeCompare(y.fecha) || x.inicio.localeCompare(y.inicio));
+  const prox = uni.filter(a => a.fecha >= hoy), pas = uni.filter(a => a.fecha < hoy);
+  d.innerHTML = `<div class="dlg-wrap">
+    <div class="dlg-head"><div><div class="eyebrow">Administración</div><h3>Todas las actividades</h3></div><button class="icon-btn" data-act="cerrar" aria-label="Cerrar">×</button></div>
+    <div class="dlg-body">
+      <div class="grupo-t">Sesiones recurrentes (${sem.length})</div>${sem.map(fila).join('') || '<p class="hint">Sin sesiones recurrentes.</p>'}
+      <div class="grupo-t">Fechas únicas próximas (${prox.length})</div>${prox.map(fila).join('') || '<p class="hint">Sin actividades próximas de fecha única.</p>'}
+      ${pas.length ? `<div class="grupo-t">Fechas únicas pasadas (${pas.length})</div>${pas.map(fila).join('')}` : ''}
+    </div>
+    <div class="dlg-foot"><div class="der"><button class="btn accent sm" data-act="nueva">${ICON.plus}Nueva actividad</button></div></div></div>`;
+  abrirDlg(d);
+}
+
+let toastT;
+function toast(msg, tipo){
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast' + (tipo === 'err' ? ' err' : ''); t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200);
+}
+
+/* =====================================================================
+   Eventos
+   ===================================================================== */
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  const act = b.dataset.act, id = b.dataset.id, f = b.dataset.fecha;
+  const buscar = () => state.actividades.find(x => x.id === id);
+  try {
+    switch (act) {
+      case 'cerrar': b.closest('dialog').close(); break;
+      case 'mes': { let {y,m} = state.vista; m += Number(b.dataset.dir); if (m < 1) { m = 12; y--; } if (m > 12) { m = 1; y++; } state.vista = {y,m}; renderLeyenda(); renderCalendario(); break; }
+      case 'irHoy': { const p = partes(ahora().fecha); state.vista = { y:p.y, m:p.m }; renderLeyenda(); renderCalendario(); break; }
+      case 'filtro': state.filtro = b.dataset.v; local.set('gar-cap-filtro', state.filtro); render(); break;
+      case 'dia': abrirDia(f); break;
+      case 'login': abrirLogin(); break;
+      case 'logout': salirAdmin(); toast('Saliste del modo administrador'); break;
+      case 'nueva': $('#dlgSeries').open && $('#dlgSeries').close(); abrirForm(null); break;
+      case 'agregarEnDia': e.stopPropagation(); abrirForm(null, { fecha: f }); break;
+      case 'series': abrirSeries(); break;
+      case 'editar': { const a = buscar(); if (a) { $('#dlgSeries').open && $('#dlgSeries').close(); abrirForm(a); } break; }
+      case 'cambiarDia': { const a = buscar(); if (a) abrirForm({ ...a, id:'', repeticion:'unica', fecha:f, dias:[dow(f)], excepciones:[] }, { override: { id, fecha: f } }); break; }
+      case 'cancelarDia': { const a = buscar(); if (a && confirm(`¿Cancelar "${a.titulo}" solo el ${fechaLarga(f)}?\nLa serie semanal se mantiene los demás días.`)) { await enviar('save', { actividad: { ...a, excepciones: [...new Set([...a.excepciones, f])] } }); toast('Sesión cancelada para ese día'); } break; }
+      case 'restaurar': { const a = buscar(); if (a) { await enviar('save', { actividad: { ...a, excepciones: a.excepciones.filter(x => x !== f) } }); toast('Sesión restaurada'); } break; }
+      case 'eliminar': { const a = buscar(); if (a && confirm(`¿Eliminar "${a.titulo}"${a.repeticion==='semanal' ? ' y todas sus sesiones semanales' : ''}? Esta acción no se puede deshacer.`)) { await enviar('delete', { id }); toast('Actividad eliminada'); if ($('#dlgSeries').open) abrirSeries(); } break; }
+      case 'addLink': $('#links').insertAdjacentHTML('beforeend', filaLink()); $('#links').lastElementChild.querySelector('input').focus(); break;
+      case 'rmLink': b.closest('.link-row').remove(); break;
+      case 'rmExc': formCtx.excepciones = formCtx.excepciones.filter(x => x !== f); renderExcepciones(); break;
+    }
+  } catch(ex) { toast(ex.message, 'err'); }
+});
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('cell') && e.target.dataset.fecha) { e.preventDefault(); abrirDia(e.target.dataset.fecha); }
+});
+document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+$('#dlgDia').addEventListener('close', () => state.diaAbierto = null);
+
+/* =====================================================================
+   Arranque
+   ===================================================================== */
+async function cargar(){
+  try {
+    const datos = await api.cargar();
+    state.actividades = datos.map(normalizar);
+    state.error = '';
+    if (!MODO_DEMO) local.set('gar-cap-cache', JSON.stringify(state.actividades));
+  } catch(e) {
+    state.error = state.actividades.length ? 'Sin conexión con el servidor: mostrando la última programación guardada.' : 'No se pudo cargar la programación. Revisa tu conexión y recarga la página.';
+  }
+  state.cargando = false;
+  render();
+}
+
+(function init(){
+  if (!MODO_DEMO) { const c = local.get('gar-cap-cache'); if (c) { try { state.actividades = JSON.parse(c).map(normalizar); } catch(e){} } }
+  const pin = sesion.get('gar-cap-pin');
+  if (pin) { state.admin = true; state.pin = pin; }
+  render();
+  cargar();
+  let ultimoDia = ahora().fecha;
+  setInterval(() => {
+    const n = ahora().fecha;
+    if (n !== ultimoDia) { ultimoDia = n; render(); } else renderHoy();
+  }, 60000);
+  setInterval(() => { if (!state.admin && !document.hidden) cargar(); }, 10 * 60000);
+})();
+</script>
+</body>
+</html>
